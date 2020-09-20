@@ -1,0 +1,17 @@
+//二叉树的中序遍历
+
+class Solution {
+public:
+    void inorder(TreeNode* root,vector<int>& record) {
+        if(!root) return ;
+        inorder(root->left,record);
+        record.push_back(root->val);
+        inorder(root -> right,record);
+    }
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> record;
+        inorder(root,record);
+        return record;
+    }
+
+};
