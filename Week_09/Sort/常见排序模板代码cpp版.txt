@@ -1,0 +1,89 @@
+/*
+*
+*author songbufei
+*time 2020/11/12
+*theme common sort algorithms
+*
+*/
+#include<vector>
+using namespace std;
+
+//1.冒泡排序：
+void bubbleSort(vector<int>& nums) {
+    int n = nums.size();
+    for(int i{0};i<n;++i) {
+        for(int j{1};j<n-i;j++) {
+	    if(nums[j]<nums[j-1]) {int tmp = nums[j]; nums[j]=nums[j-1]; nus[j-1] = tmp;}
+        }
+    }
+}
+
+//2.选择排序
+void selectionsort(vector<int>& nums) {
+	int n = nums.size();
+	int minindex,tmp;
+	for(int i{0};i<n;++i) {
+		minindex = i;
+		for(int j{i+1};j<n;++j) {
+			if(nums[j] < nums[minindex]) minindex = j;
+		}
+		tmp = nums[i];nums[i] = nums[minindex];nums[minindex]=tmp;
+	}
+}
+
+// 3.插入排序
+void insertionSort(vector<int>& nums) {
+	int n = nums.size();
+	for(int i{1};i<n;++i) {
+		int preindex = i-1,cur = nums[i];
+		while(preindex >=0 && nums[preindex] > cur) nums[preindex+1] = nums[preindex--];
+		nums[++preindex] = cur;
+	}
+}
+
+
+// 4.快排
+void quickSort(vector<int>& nums,int begin ,int end) {
+	if(end <= begin) return;
+	int pivot = partition(nums,begin,end);
+	quicksort(nums,int 0,pivot-1);
+	quicksort(nums,pivot+1,end);
+}
+int partition(vector<int>& nums,int begin,int end) {
+	int count = begin,pivot = end,tmp;
+	for(int i= begin;i<end;i++) {
+		if(nums[i] < nums[pivot]) {tmp = nums[i];nums[i] = nums[count];nums[count++] = tmp;}
+	}
+	tmp = nums[pivot]; nums[pivot] = nums[count];nums[count] = tmp;
+	return count;
+}
+
+//注： 调用方式 quickSort(nums,0,nums.size()-1)
+
+
+// 5.归并排序
+void mergeSort(vector<int>& nums,int left,int right) {
+	if(left >= right ) return;
+	int mid = (left + right) >> 1;
+	mergeSort(nums,left,mid);
+	mergeSort(nums,mid+1,right);
+	merge(nums,left,mid,right);
+}
+void merge(vector<int>& nums,int left,int mid,int right) {
+	int i{left},j{mid+1},k{0},size{right-left+1};
+	vector<int> tmp(size,0);
+	while(i<=mid && j<=right) tmp[k++] = nums[i] > nums[j] ? nums[j++] : nums[i++];
+	while(i<=mid) tmp[k++] = nums[i++];
+	while(j<=right) tmp[k++] = nums[j++];
+	for(int p{0};p<=size;++p) nums[p] = tmp[p];
+}
+// 注： 调用方式 meigeSort(nums,0,nums.size()-1);
+
+// 6.堆排序
+void heap_sort(vector<int> nums,int len) {
+	priority_queue<int,vector<int>,greater<int>> qu; //小顶堆
+	// priority_queue<int,vector<int>,less<int>> qu; //默认大顶堆, 等同于priority_queue<int,vector<int>> qu,默认vector 等同于priority_queue<int> qu
+	for(int i{0};i<len;++i) qu.push(nums[i]);
+	for(int i{0};i<len;++i) nums[i] = qu.pop();
+}
+// 注：调用方式 heap_sort(nums,nums.size());
